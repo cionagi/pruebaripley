@@ -1,26 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+//dependency
+import React, {Component} from 'react'
+import {BrowserRouter, Switch, Route,} from 'react-router-dom'
+import redux, {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+// Views
+import Index from './screens/index'
+
+//components
+
+
+//assets
+import './App.css'
+
+//helpers
+
+class App extends Component {
+    constructor(props) {
+        super(props)
+        // this.idleTimer = null
+    }
+
+
+
+    render() {
+        return (
+          <div>
+              <BrowserRouter>
+                  <Switch>
+                  <Route path={'/'} component={Index} exact={true}/>
+                  </Switch>
+              </BrowserRouter>
+          </div>
+      )
+    }
 }
 
-export default App;
+
+const mapStateToProps = (state) => {
+    return {
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators({}, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
+
