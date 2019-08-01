@@ -1,11 +1,18 @@
+// Dependency
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux'
 import {PersistGate} from 'redux-persist/lib/integration/react'
 import configureStore from './store/configureStore'
+
+// Components
+import App from './App';
+
+// Assets
+import 'bootstrap/dist/css/bootstrap.css';
+
+
 let {store, persistor} = configureStore()
 ReactDOM.render(
     <Provider store={store}>
