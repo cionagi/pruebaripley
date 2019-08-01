@@ -10,8 +10,8 @@ import configureStore from './store/configureStore'
 import App from './App';
 
 // Assets
+import './styles/index.css'
 import 'bootstrap/dist/css/bootstrap.css';
-
 
 let {store, persistor} = configureStore()
 ReactDOM.render(

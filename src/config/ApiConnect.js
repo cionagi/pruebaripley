@@ -38,7 +38,6 @@ const callApi = (url: String, config: RequestConfig, token: String) => {
     return axios(request)
         .then(response => {
                 const json = response.data
-                console.log(response)
                 if ([200, 201].indexOf(response.status) === -1) {
                     return Promise.reject(json)
                 }
@@ -52,9 +51,7 @@ const callApi = (url: String, config: RequestConfig, token: String) => {
             }
         )
         .catch(error => {
-            console.log(error)
             const response = error.response.data
-
             return Promise.reject(response)
         })
 }
