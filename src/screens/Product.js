@@ -4,7 +4,10 @@ import redux, { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 //  Components
-import Gallery from "../components/Gallery"
+import Gallery from "../components/Gallery";
+import Prices from "../components/Prices";
+import ProductTitle from "../components/ProductTitle";
+import ProductDescription from "../components/ProductDescription";
 
 // Actions
 import { callGetProductById } from "./../store/actions/Products";
@@ -32,12 +35,12 @@ class Index extends Component {
       products: { isFetching }
     } = this.props;
 
-    const {productId} = this.state
+    const { productId } = this.state;
     if (
       isFetching !== nextProps.products.isFetching &&
       !nextProps.products.isFetching
     ) {
-      console.log(nextProps.products.list.infoComplete)
+      console.log(nextProps.products.list.infoComplete);
       this.setState({
         loading: false,
         product: nextProps.products.list[productId].infoComplete
@@ -46,34 +49,36 @@ class Index extends Component {
   }
 
   drawProduct = () => {
-    const {product,product:{images}} = this.state
-      console.log(product)
+    const {
+      product,
+      product: { images, prices, shortDescription, longDescription }
+    } = this.state;
+    console.log(prices);
 
-    return(
+    return (
       <div>
-      <div className="row justify-content-center">
-        <div className={"col-7"}>
-
-        <Gallery images={images}/>
-
-        </div>
-        <div className={"col-5"}>
-          <div className="row justify-content-center">
-            <div className={"col"}>PRECIO</div>
-            <div className={"col"}>GARANTIA</div>
-            <div className={"col"}>BOLSA</div>
+        <div className="row justify-content-center">
+          <div className={"col-7"}>
+            <Gallery images={images} />
+          </div>
+          <div className={"col-5"}>
+            <div className="row justify-content-center">
+              <ProductTitle prices={prices} />
+              <Prices prices={prices} />
+              <div className={"col"}>GARANTIA</div>
+              <div className={"col"}>BOLSA</div>
+            </div>
           </div>
         </div>
+        <div className="row justify-content-center">
+          <div className={"col-12"}>
+          <ProductDescription shortDescription={shortDescription} longDescription={longDescription} />
+            </div>
+          <div className={"col-12"}>OTHER CLIENTS VIEWS RECIEN VISTOS</div>
+          <div className={"col-12"}>RECIEN VISTOS</div>
+        </div>
       </div>
-      <div className="row justify-content-center">
-        <div className={"col-12"}>PRODUCT OFFER</div>
-        <div className={"col-12"}>COLLAPSES</div>
-        <div className={"col-12"}>OTHER CLIENTS VIEWS RECIEN VISTOS</div>
-        <div className={"col-12"}>RECIEN VISTOS</div>
-      </div>
-    </div>
-    )
-    
+    );
   };
 
   render() {
