@@ -8,7 +8,7 @@ import {PRODUCTSSKUS} from '../constans/productsSku'
 import ProductCard from '../components/ProductCard'
 
 // Actions
-import { callGetProductsByPartNumbers } from "./../store/actions/Products";
+import { callGetProducts } from "./../store/actions/Products";
 
 class Index extends Component {
   constructor(props) {
@@ -20,9 +20,9 @@ class Index extends Component {
   }
   componentDidMount() {
     const {
-      actions: { callGetProductsByPartNumbers }
+      actions: { callGetProducts }
     } = this.props;
-    callGetProductsByPartNumbers(PRODUCTSSKUS);
+    callGetProducts(PRODUCTSSKUS);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -71,7 +71,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {actions: bindActionCreators({callGetProductsByPartNumbers},dispatch)};
+  return {actions: bindActionCreators({callGetProducts},dispatch)};
 };
 
 export default connect(mapStateToProps,mapDispatchToProps)(Index);

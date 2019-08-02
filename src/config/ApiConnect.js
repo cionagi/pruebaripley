@@ -3,8 +3,7 @@ import * as Action from '../store/actions/ActionsTypes'
 import axios from 'axios'
 import * as _ from 'lodash'
 
-export const API_ROOT = 'https://simple.ripley.cl/api/v2/'
-
+export const API_ROOT = 'http://localhost:3001/'
 axios.defaults.baseURL = API_ROOT
 axios.defaults.timeout = 60000
 
@@ -23,18 +22,20 @@ type RequestConfig = {
 
 const callApi = (url: String, config: RequestConfig, token: String) => {
     let request = ''
-    const {responseSchema = null, callbacks, method} = config
+    const {responseSchema = null, callbacks, data,method} = config
     
         request = {
             ...callbacks,
+            data,
             url,
             method,
             headers: {
-                'Content-Type':'application/json; charset=utf-8',
-                "Accept": "*/*",
-                "Cache-Control": "no-cache",
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
             }
         }
+
+        console.log(request)
     return axios(request)
         .then(response => {
                 const json = response.data

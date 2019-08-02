@@ -42,52 +42,27 @@ class Products {
     };
   }
 
-  static [Action.GET_PRODUCT_BY_PART_NUMBER_REQUEST](state, action) {
-    return {
-      ...state,
-      isFetching: true,
-      hasError: false
-    };
-  }
-
-  static [Action.GET_PRODUCT_BY_PART_NUMBER_SUCCESS](state, action) {
-    return {
-      ...state,
-      isFetching: false,
-      hasError: false
-    };
-  }
-
-  static [Action.GET_PRODUCT_BY_PART_NUMBER_ERROR](state, action) {
-    return {
-      ...state,
-      isFetching: false,
-      hasError: true
-    };
-  }
-
-  static [Action.GET_PRODUCTS_BY_PART_NUMBERS_REQUEST](state, action) {
+  static [Action.GET_PRODUCTS_REQUEST](state, action) {
     return {
       isFetching: true,
       hasError: false
     };
   }
 
-  static [Action.GET_PRODUCTS_BY_PART_NUMBERS_SUCCESS](state, action) {
+  static [Action.GET_PRODUCTS_SUCCESS](state, action) {
     const { response } = action;
-    const products = response.reduce((acc, product) => ({ ...acc, [product.uniqueID]: product }), {})
     return {
       ...state,
       list: {
         ...state.list,
-        ...products
+        ...response
     },
       isFetching: false,
       hasError: false
     };
   }
 
-  static [Action.GET_PRODUCTS_BY_PART_NUMBERS_ERROR](state, action) {
+  static [Action.GET_PRODUCTS_ERROR](state, action) {
     return {
       ...state,
       isFetching: false,
