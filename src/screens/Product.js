@@ -8,6 +8,8 @@ import Gallery from "../components/Gallery";
 import Prices from "../components/Prices";
 import ProductTitle from "../components/ProductTitle";
 import ProductDescription from "../components/ProductDescription";
+import RecentlySeen from "../components/RecentlySeen";
+import ButtonAddCart from "../components/ButtonAddCart";
 
 // Actions
 import { callGetProductById } from "./../store/actions/Products";
@@ -40,7 +42,6 @@ class Index extends Component {
       isFetching !== nextProps.products.isFetching &&
       !nextProps.products.isFetching
     ) {
-      console.log(nextProps.products.list.infoComplete);
       this.setState({
         loading: false,
         product: nextProps.products.list[productId].infoComplete
@@ -51,9 +52,8 @@ class Index extends Component {
   drawProduct = () => {
     const {
       product,
-      product: { images, prices, shortDescription, longDescription }
+      product: { images, prices, shortDescription, longDescription, partNumber, name, }
     } = this.state;
-    console.log(prices);
 
     return (
       <div>
@@ -63,19 +63,23 @@ class Index extends Component {
           </div>
           <div className={"col-5"}>
             <div className="row justify-content-center">
-              <ProductTitle prices={prices} />
+              <ProductTitle partNumber={partNumber} name={name}/>
               <Prices prices={prices} />
               <div className={"col"}>GARANTIA</div>
-              <div className={"col"}>BOLSA</div>
+              <div className={"col"}> <ButtonAddCart /></div>
             </div>
           </div>
         </div>
         <div className="row justify-content-center">
           <div className={"col-12"}>
-          <ProductDescription shortDescription={shortDescription} longDescription={longDescription} />
-            </div>
-          <div className={"col-12"}>OTHER CLIENTS VIEWS RECIEN VISTOS</div>
-          <div className={"col-12"}>RECIEN VISTOS</div>
+            <ProductDescription
+              shortDescription={shortDescription}
+              longDescription={longDescription}
+            />
+          </div>
+          <div className={"col-12"}>
+            <RecentlySeen />
+          </div>
         </div>
       </div>
     );

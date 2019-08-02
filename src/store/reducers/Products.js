@@ -41,7 +41,10 @@ class Products {
         infoComplete:response
       }
     } else {
-      product = response
+      product = {
+       ...state.list[uniqueID],
+        infoComplete:response
+      }
     }
 
     return {
