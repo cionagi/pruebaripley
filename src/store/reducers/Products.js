@@ -26,9 +26,33 @@ class Products {
   }
 
   static [Action.GET_PRODUCT_BY_ID_SUCCESS](state, action) {
-    console.log(action);
+    const {
+      response,
+      response: { uniqueID }
+    } = action;
+
+    let product = null
+    if (state.list[uniqueID] === undefined) {
+      product = {
+        uniqueID: response.uniqueID,
+        partNumber: response.partNumber,
+        name: response.name,
+        shortDescription: response.shortDescription,
+        infoComplete:response
+      }
+    } else {
+      product = response
+    }
+
     return {
       ...state,
+      list: {
+        ...state.list,
+        [uniqueID]: {
+          ...state.list[uniqueID],
+          ...product
+        }
+      },
       isFetching: false,
       hasError: false
     };
@@ -56,7 +80,7 @@ class Products {
       list: {
         ...state.list,
         ...response
-    },
+      },
       isFetching: false,
       hasError: false
     };

@@ -2,10 +2,9 @@
 import React, { Component } from "react";
 import redux, { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import {PRODUCTSSKUS} from '../constans/productsSku'
+import { PRODUCTSSKUS } from "../constans/productsSku";
 //  Components
-
-import ProductCard from '../components/ProductCard'
+import ProductCard from "../components/ProductCard";
 
 // Actions
 import { callGetProducts } from "./../store/actions/Products";
@@ -13,9 +12,9 @@ import { callGetProducts } from "./../store/actions/Products";
 class Index extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
-        loading: true,
-        list: []
+    this.state = {
+      loading: true,
+      list: []
     };
   }
   componentDidMount() {
@@ -26,37 +25,45 @@ class Index extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-   const {products, products:{isFetching}} = this.props
+    const {
+      products,
+      products: { isFetching }
+    } = this.props;
 
-   if(isFetching !== nextProps.products.isFetching && !nextProps.products.isFetching){
-this.setState({
-    loading:false,
-    list: nextProps.products.list,
-})
-   }
+    if (
+      isFetching !== nextProps.products.isFetching &&
+      !nextProps.products.isFetching
+    ) {
+      this.setState({
+        loading: false,
+        list: nextProps.products.list
+      });
+    }
   }
 
   drawProducts = () => {
-    const {list} = this.state
-    const productList = Object.keys(list).map( (product, index) => {
-    return <ProductCard product={list[product]} key={`product-${index}-${list[product].uniqueID}`} />
-  })
+    const { list } = this.state;
+    const productList = Object.keys(list).map((product, index) => {
+      return (
+        <ProductCard
+          product={list[product]}
+          key={`product-${index}-${list[product].uniqueID}`}
+        />
+      );
+    });
 
-return productList
-  }
+    return productList;
+  };
 
   render() {
     const { loading } = this.state;
-    
+
     return (
       <div>
-        <div className="container-fluid">Headet</div>
-
-        <div className="container">
+        <div className="container-fluid header" />
+        <div className="container cont-index">
           <div className="row justify-content-center">
-            {
-                loading ? (<span>Loading...</span>) : this.drawProducts() 
-                }
+            {loading ? <span>Loading...</span> : this.drawProducts()}
           </div>
         </div>
       </div>
@@ -71,7 +78,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {actions: bindActionCreators({callGetProducts},dispatch)};
+  return { actions: bindActionCreators({ callGetProducts }, dispatch) };
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(Index);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Index);

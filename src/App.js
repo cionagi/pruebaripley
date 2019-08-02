@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 
 // Views
 import Index from './screens/index'
-
+import Product from './screens/Product'
 //components
 
 //assets
@@ -20,6 +20,7 @@ class App extends Component {
               <BrowserRouter>
                   <Switch>
                   <Route path={'/'} component={Index} exact={true}/>
+                  <Route path={'/product/:productId'} component={Product} exact={true}/>
                   </Switch>
               </BrowserRouter>
           </div>

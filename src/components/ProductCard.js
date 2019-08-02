@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import connect from "react-redux/es/connect/connect";
+import {Link} from 'react-router-dom'
 
 // Actions
 
@@ -31,7 +32,7 @@ class ProductCard extends Component {
     const priceOfferColorClass = !product.prices.formattedCardPrice ? 'price-offer-color' : null
     return (
       <div className="col-sm-6 col-lg-3">
-        <a href="#" className="product-link">
+         <Link to={`/product/${product.uniqueID}`} className="product-link">
         <div className={'product-card'}>
           
           <div className={'product-image-container'}>
@@ -59,7 +60,7 @@ class ProductCard extends Component {
           </div>
 
         </div>
-        </a>
+        </Link>
         
       </div>
     );
