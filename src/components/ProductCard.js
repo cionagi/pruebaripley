@@ -21,9 +21,7 @@ class ProductCard extends Component {
     };
   }
 
-  componentWillMount() {
-      console.log(this.props)
-  }
+
 
   componentWillReceiveProps(nextProps) {}
 

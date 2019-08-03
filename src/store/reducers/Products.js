@@ -1,11 +1,14 @@
 import * as Action from "../actions/ActionsTypes";
-
+import _ from 'lodash';
 const initialState = {
   isFetching: false,
   hasError: false,
   messageError: undefined,
   list: [],
-  totalProducts: 0
+  totalProducts: 0,
+  limit: 10,
+  offset: 0,
+  hasProducts: true
 };
 
 class Products {
@@ -71,6 +74,7 @@ class Products {
 
   static [Action.GET_PRODUCTS_REQUEST](state, action) {
     return {
+      ...state,
       isFetching: true,
       hasError: false
     };
@@ -78,15 +82,25 @@ class Products {
 
   static [Action.GET_PRODUCTS_SUCCESS](state, action) {
     const { response } = action;
-    return {
-      ...state,
-      list: {
-        ...state.list,
-        ...response
-      },
-      isFetching: false,
-      hasError: false
-    };
+    console.log()
+    if(_.isEmpty(response)){
+      return {
+        ...state,
+        hasProducts:false
+      }
+    }
+    else{
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          ...response
+        },
+        isFetching: false,
+        hasError: false
+      };
+    }
+    
   }
 
   static [Action.GET_PRODUCTS_ERROR](state, action) {

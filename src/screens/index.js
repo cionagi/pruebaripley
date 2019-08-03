@@ -17,14 +17,17 @@ class Index extends Component {
       loading: true,
       list: [],
       text: '',
-      error: false
+      error: false,
+      limit: 4,
+      offset: 0,
     };
   }
   componentDidMount() {
     const {
-      actions: { callGetProducts }
+      actions: { callGetProducts },
     } = this.props;
-    callGetProducts(PRODUCTSSKUS);
+    const {limit,offset} = this.state
+    callGetProducts({limit,offset});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,11 +36,11 @@ class Index extends Component {
       products: { isFetching },
       actions: { callGetProducts }
     } = this.props;
-
+    const {limit,offset} = this.state
     if ( isFetching !== nextProps.products.isFetching && !nextProps.products.isFetching) {
 
       if(nextProps.products.hasError){
-        callGetProducts(PRODUCTSSKUS);
+        if(nextProps.products.hasProducts) callGetProducts({limit,offset});
         this.setState({
           error: true,
           text: 'Tenemos pequeños problemas en estos momentos.'
@@ -47,7 +50,12 @@ class Index extends Component {
           error: false,
           text:'',
           loading: false,
-          list: nextProps.products.list
+          list: nextProps.products.list,
+          offset: offset + limit,
+        });
+        callGetProducts({
+          limit,
+          offset: offset + limit
         });
       }
     }
@@ -78,7 +86,7 @@ class Index extends Component {
             <div className={'col-12'}>
             {error &&<AlertMsg text={this.state.text} />}
             </div>
-            {loading ? <div className={'col-12'}>Loading...</div> : this.drawProducts()}
+            {loading ? <div className={'col-12 text-center'}>Loading...</div> : this.drawProducts()}
           </div>
         </div>
       </div>
