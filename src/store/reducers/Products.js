@@ -41,6 +41,8 @@ class Products {
         uniqueID: response.uniqueID,
         partNumber: response.partNumber,
         name: response.name,
+        prices: response.prices,
+        images: response.images,
         shortDescription: response.shortDescription,
         infoComplete:response
       }
