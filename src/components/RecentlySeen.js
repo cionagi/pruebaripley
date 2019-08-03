@@ -7,11 +7,11 @@ import RecentlySeenCard from "./RecentlySeenCard";
 class RecentlySeen extends Component {
   drawProductRecentlyViewed = () => {
     const { recentlyViewed } = this.props;
-    return recentlyViewed.map(productId => {
+    return recentlyViewed.map((productId, index) => {
       return (
         <RecentlySeenCard
           product={this.props.products.list[productId]}
-          key={productId}
+          key={`${productId}${index}`}
         />
       );
     });

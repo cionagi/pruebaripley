@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import redux, { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 //  Components
 import Gallery from "../components/Gallery";
@@ -30,15 +31,17 @@ class Product extends Component {
     const {
       actions: { callGetProductById, addProductRecentlyViewed }
     } = this.props;
-
     callGetProductById(this.state.productId);
     addProductRecentlyViewed(this.state.productId);
   }
 
   componentWillReceiveProps(nextProps) {
+
     const {
       products,
-      products: { isFetching }
+      products: { isFetching },
+      match,
+      actions: { callGetProductById, addProductRecentlyViewed }
     } = this.props;
 
     const { productId } = this.state;
@@ -51,6 +54,20 @@ class Product extends Component {
         product: nextProps.products.list[productId].infoComplete
       });
     }
+
+    if(this.props.match.params.productId !== nextProps.match.params.productId){
+      this.setState({
+        loading: true,
+        productId:nextProps.match.params.productId,
+        product: null
+      });
+      callGetProductById(nextProps.match.params.productId);
+      addProductRecentlyViewed(nextProps.match.params.productId);
+    }
+
+
+
+
   }
 
   drawProduct = () => {
@@ -68,7 +85,7 @@ class Product extends Component {
     } = this.state;
 
     return (
-      <div>
+      <div key={`product-only-${productId}`}>
         <div className="row justify-content-center">
           <div className={"col-7"}>
             <Gallery images={images} />
@@ -105,7 +122,9 @@ class Product extends Component {
 
     return (
       <div>
-        <div className="container-fluid header" />
+        <div className="container-fluid header" >
+        <Link onClick={ () => {this.props.history.push('/')}} >ATRAS</Link>
+        </div>
         <div className="container cont-index">
           <div className="row justify-content-center">
             {loading ? <span>Loading...</span> : this.drawProduct()}
