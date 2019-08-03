@@ -46,6 +46,7 @@ const callApi = (url: String, config: RequestConfig, token: String) => {
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
+                
             }
         }
 

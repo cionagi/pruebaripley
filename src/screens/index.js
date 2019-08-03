@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { PRODUCTSSKUS } from "../constans/productsSku";
 //  Components
 import ProductCard from "../components/ProductCard";
+import AlertMsg from "../components/AlertMsg";
 
 // Actions
 import { callGetProducts } from "./../store/actions/Products";
@@ -14,7 +15,9 @@ class Index extends Component {
     super(props);
     this.state = {
       loading: true,
-      list: []
+      list: [],
+      text: '',
+      error: false
     };
   }
   componentDidMount() {
@@ -27,17 +30,26 @@ class Index extends Component {
   componentWillReceiveProps(nextProps) {
     const {
       products,
-      products: { isFetching }
+      products: { isFetching },
+      actions: { callGetProducts }
     } = this.props;
 
-    if (
-      isFetching !== nextProps.products.isFetching &&
-      !nextProps.products.isFetching
-    ) {
-      this.setState({
-        loading: false,
-        list: nextProps.products.list
-      });
+    if ( isFetching !== nextProps.products.isFetching && !nextProps.products.isFetching) {
+
+      if(nextProps.products.hasError){
+        callGetProducts(PRODUCTSSKUS);
+        this.setState({
+          error: true,
+          text: 'Tenemos pequeños problemas en estos momentos.'
+        });
+      }else{
+        this.setState({
+          error: false,
+          text:'',
+          loading: false,
+          list: nextProps.products.list
+        });
+      }
     }
   }
 
@@ -56,14 +68,17 @@ class Index extends Component {
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading,error } = this.state;
 
     return (
       <div>
         <div className="container-fluid header" />
         <div className="container cont-index">
           <div className="row justify-content-center">
-            {loading ? <span>Loading...</span> : this.drawProducts()}
+            <div className={'col-12'}>
+            {error &&<AlertMsg text={this.state.text} />}
+            </div>
+            {loading ? <div className={'col-12'}>Loading...</div> : this.drawProducts()}
           </div>
         </div>
       </div>

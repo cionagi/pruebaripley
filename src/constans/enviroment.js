@@ -1,4 +1,4 @@
-export const ApiEnv = 'prod'
-export const DEV_ENV = 'localhost:3001/'
-export const PROD_ENV = 'http://134.209.219.106:8080/'
+export const ApiEnv = 'dev'
+export const DEV_ENV = 'http://localhost:8080/'
+export const PROD_ENV = 'http://pruebaripley-248618.appspot.com/'
 
