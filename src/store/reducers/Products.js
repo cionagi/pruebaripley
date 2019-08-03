@@ -8,7 +8,8 @@ const initialState = {
   totalProducts: 0,
   limit: 10,
   offset: 0,
-  hasProducts: true
+  hasProducts: true,
+  recentlyViewed:[]
 };
 
 class Products {
@@ -110,6 +111,16 @@ class Products {
       hasError: true
     };
   }
+
+  static [Action.SET_RECENTLY_VIEWED](state, action) {
+    return {
+        ...state,
+        recentlyViewed:  [...state.recentlyViewed, action.payload],
+    }
+  }
+
+ 
+
 }
 
 export default Products.reduce;

@@ -40,3 +40,10 @@ export const callGetProductById = productId => dispatch => {
 export const callGetProducts = params => dispatch => {
   return dispatch(getProducts(params));
 };
+
+export const addProductRecentlyViewed = (productID) => (dispatch) => {
+    return dispatch({
+        type: Action.SET_RECENTLY_VIEWED,
+        payload: productID
+    })
+}

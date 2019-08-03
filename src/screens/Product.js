@@ -12,9 +12,12 @@ import RecentlySeen from "../components/RecentlySeen";
 import ButtonAddCart from "../components/ButtonAddCart";
 
 // Actions
-import { callGetProductById } from "./../store/actions/Products";
+import {
+  callGetProductById,
+  addProductRecentlyViewed
+} from "./../store/actions/Products";
 
-class Index extends Component {
+class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,10 +28,11 @@ class Index extends Component {
   }
   componentDidMount() {
     const {
-      actions: { callGetProductById }
+      actions: { callGetProductById, addProductRecentlyViewed }
     } = this.props;
 
     callGetProductById(this.state.productId);
+    addProductRecentlyViewed(this.state.productId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,7 +56,15 @@ class Index extends Component {
   drawProduct = () => {
     const {
       product,
-      product: { images, prices, shortDescription, longDescription, partNumber, name, }
+      productId,
+      product: {
+        images,
+        prices,
+        shortDescription,
+        longDescription,
+        partNumber,
+        name
+      }
     } = this.state;
 
     return (
@@ -63,10 +75,13 @@ class Index extends Component {
           </div>
           <div className={"col-5"}>
             <div className="row justify-content-center">
-              <ProductTitle partNumber={partNumber} name={name}/>
+              <ProductTitle partNumber={partNumber} name={name} />
               <Prices prices={prices} />
               <div className={"col"}>GARANTIA</div>
-              <div className={"col"}> <ButtonAddCart /></div>
+              <div className={"col"}>
+                {" "}
+                <ButtonAddCart />
+              </div>
             </div>
           </div>
         </div>
@@ -78,7 +93,7 @@ class Index extends Component {
             />
           </div>
           <div className={"col-12"}>
-            <RecentlySeen />
+            <RecentlySeen productId={productId} recentlyViewed={this.props.products.recentlyViewed.filter(item => item !== productId)}/>
           </div>
         </div>
       </div>
@@ -108,10 +123,15 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return { actions: bindActionCreators({ callGetProductById }, dispatch) };
+  return {
+    actions: bindActionCreators(
+      { callGetProductById, addProductRecentlyViewed },
+      dispatch
+    )
+  };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Index);
+)(Product);
