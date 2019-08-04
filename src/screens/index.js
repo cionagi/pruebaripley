@@ -61,7 +61,6 @@ class Index extends Component {
           text: "Tenemos pequeños problemas en estos momentos."
         });
       } else {
-        // console.log("else", nextProps.products.hasProducts);
         this.setState({
           error: false,
           text: "",
@@ -69,10 +68,13 @@ class Index extends Component {
           offset: nextProps.products.offset + nextProps.products.limit,
           loading: nextProps.products.hasProducts
         });
-        callGetProducts({
-          limit: nextProps.products.limit,
-          offset: nextProps.products.offset + nextProps.products.limit
-        });
+        if(nextProps.products.hasProducts){
+          callGetProducts({
+            limit: nextProps.products.limit,
+            offset: nextProps.products.offset + nextProps.products.limit
+          });
+        }
+        
       }
     }
   }
