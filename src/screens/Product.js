@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import redux, { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 //  Components
 import Gallery from "../components/Gallery";
@@ -10,11 +11,15 @@ import ProductTitle from "../components/ProductTitle";
 import ProductDescription from "../components/ProductDescription";
 import RecentlySeen from "../components/RecentlySeen";
 import ButtonAddCart from "../components/ButtonAddCart";
+import Loading from "../components/Loading";
 
 // Actions
-import { callGetProductById } from "./../store/actions/Products";
+import {
+  callGetProductById,
+  addProductRecentlyViewed
+} from "./../store/actions/Products";
 
-class Index extends Component {
+class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,48 +30,70 @@ class Index extends Component {
   }
   componentDidMount() {
     const {
-      actions: { callGetProductById }
+      actions: { callGetProductById, addProductRecentlyViewed }
     } = this.props;
-
     callGetProductById(this.state.productId);
+    addProductRecentlyViewed(this.state.productId);
   }
 
   componentWillReceiveProps(nextProps) {
+
     const {
       products,
-      products: { isFetching }
+      products: { isFetchingProductId },
+      match,
+      actions: { callGetProductById, addProductRecentlyViewed }
     } = this.props;
 
     const { productId } = this.state;
     if (
-      isFetching !== nextProps.products.isFetching &&
-      !nextProps.products.isFetching
+      isFetchingProductId !== nextProps.products.isFetchingProductId &&
+      !nextProps.products.isFetchingProductId
     ) {
       this.setState({
         loading: false,
-        product: nextProps.products.list[productId].infoComplete
+        product: nextProps.products.product
       });
+    }
+
+    if(this.props.match.params.productId !== nextProps.match.params.productId){
+      this.setState({
+        loading: true,
+        productId:nextProps.match.params.productId,
+        product: null
+      });
+      callGetProductById(nextProps.match.params.productId);
+      addProductRecentlyViewed(nextProps.match.params.productId);
     }
   }
 
   drawProduct = () => {
     const {
       product,
-      product: { images, prices, shortDescription, longDescription, partNumber, name, }
+      productId,
+      product: {
+        images,
+        prices,
+        shortDescription,
+        longDescription,
+        partNumber,
+        name
+      }
     } = this.state;
-
+    // console.log(this.state.product.images,productId)
     return (
-      <div>
+      <div className={"col-12"} key={`product-only-${productId}`}>
         <div className="row justify-content-center">
-          <div className={"col-7"}>
+          <div className={"col-12 col-sm-7"}>
             <Gallery images={images} />
           </div>
-          <div className={"col-5"}>
+          <div className={"col-12 col-sm-5"}>
             <div className="row justify-content-center">
-              <ProductTitle partNumber={partNumber} name={name}/>
+              <ProductTitle partNumber={partNumber} name={name}  shortDescription={shortDescription}/>
               <Prices prices={prices} />
-              <div className={"col"}>GARANTIA</div>
-              <div className={"col"}> <ButtonAddCart /></div>
+              <div className={"col"}>
+                <ButtonAddCart />
+              </div>
             </div>
           </div>
         </div>
@@ -78,7 +105,7 @@ class Index extends Component {
             />
           </div>
           <div className={"col-12"}>
-            <RecentlySeen />
+            <RecentlySeen productId={productId} recentlyViewed={this.props.products.recentlyViewed.filter(item => item !== productId)}/>
           </div>
         </div>
       </div>
@@ -86,14 +113,16 @@ class Index extends Component {
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, product } = this.state;
 
     return (
       <div>
-        <div className="container-fluid header" />
+        <div className="container-fluid header" >
+        <Link to={'/'} className={'btn-go-back'}>ATRAS</Link>
+        </div>
         <div className="container cont-index">
           <div className="row justify-content-center">
-            {loading ? <span>Loading...</span> : this.drawProduct()}
+            {loading ? <Loading /> : product === undefined ? <Loading />  : this.drawProduct()}
           </div>
         </div>
       </div>
@@ -108,10 +137,15 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return { actions: bindActionCreators({ callGetProductById }, dispatch) };
+  return {
+    actions: bindActionCreators(
+      { callGetProductById, addProductRecentlyViewed },
+      dispatch
+    )
+  };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Index);
+)(Product);

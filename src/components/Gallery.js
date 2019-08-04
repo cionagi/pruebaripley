@@ -11,7 +11,7 @@ class Gallery extends Component {
           }
         )
     })
-    return <ImageGallery items={images} />;
+    return <ImageGallery lazyLoad={true} items={images} />;
   }
 }
 
