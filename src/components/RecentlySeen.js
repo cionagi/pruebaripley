@@ -10,8 +10,8 @@ class RecentlySeen extends Component {
     return recentlyViewed.map((productId, index) => {
       return (
         <RecentlySeenCard
-          product={this.props.products.list[productId]}
-          key={`${productId}${index}`}
+          product={this.props.products.list.find(x => x.uniqueID === productId)}
+          key={index}
         />
       );
     });

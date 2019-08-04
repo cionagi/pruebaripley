@@ -4,8 +4,8 @@ class ProductDescription extends Component {
   render() {
     const { longDescription } = this.props;
     return (
-      <div className={"row mt-5 mb-5"}>
-        <div className={"col-12 text-justify"}>
+      <div className={"mt-5 mb-5"}>
+        <div className={"col-12 text-justify product-description-html"}>
           <div
             className="post__content"
             dangerouslySetInnerHTML={{ __html: longDescription }}
@@ -17,3 +17,5 @@ class ProductDescription extends Component {
 }
 
 export default ProductDescription;
+
+

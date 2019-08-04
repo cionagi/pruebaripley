@@ -1,0 +1,23 @@
+.product-description-html img {
+  width: 100%; }
+
+.btn-go-back {
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem; }
+
+.product-title .name {
+  margin: 0 0 10px;
+  font-weight: 700;
+  font-size: 1.5em; }
+
+.product-detail-prices .product-detail-prices {
+  color: #999; }
+
+.product-detail-prices .formattedOfferPrice {
+  color: #999;
+  font-weight: 600; }
+
+.product-detail-prices .formattedCardPrice {
+  color: #e75353;
+  font-size: 20px; }

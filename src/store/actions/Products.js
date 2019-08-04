@@ -29,6 +29,10 @@ const getProducts = params => ({
     data: {
       limit: params.limit,
       offset: params.offset
+    },
+    payload: {
+      limit: params.limit,
+      offset: params.offset
     }
   }
 });

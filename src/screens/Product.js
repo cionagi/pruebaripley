@@ -11,6 +11,7 @@ import ProductTitle from "../components/ProductTitle";
 import ProductDescription from "../components/ProductDescription";
 import RecentlySeen from "../components/RecentlySeen";
 import ButtonAddCart from "../components/ButtonAddCart";
+import Loading from "../components/Loading";
 
 // Actions
 import {
@@ -39,19 +40,19 @@ class Product extends Component {
 
     const {
       products,
-      products: { isFetching },
+      products: { isFetchingProductId },
       match,
       actions: { callGetProductById, addProductRecentlyViewed }
     } = this.props;
 
     const { productId } = this.state;
     if (
-      isFetching !== nextProps.products.isFetching &&
-      !nextProps.products.isFetching
+      isFetchingProductId !== nextProps.products.isFetchingProductId &&
+      !nextProps.products.isFetchingProductId
     ) {
       this.setState({
         loading: false,
-        product: nextProps.products.list[productId].infoComplete
+        product: nextProps.products.product
       });
     }
 
@@ -64,10 +65,6 @@ class Product extends Component {
       callGetProductById(nextProps.match.params.productId);
       addProductRecentlyViewed(nextProps.match.params.productId);
     }
-
-
-
-
   }
 
   drawProduct = () => {
@@ -83,20 +80,18 @@ class Product extends Component {
         name
       }
     } = this.state;
-
+    // console.log(this.state.product.images,productId)
     return (
-      <div key={`product-only-${productId}`}>
+      <div className={"col-12"} key={`product-only-${productId}`}>
         <div className="row justify-content-center">
-          <div className={"col-7"}>
+          <div className={"col-12 col-sm-7"}>
             <Gallery images={images} />
           </div>
-          <div className={"col-5"}>
+          <div className={"col-12 col-sm-5"}>
             <div className="row justify-content-center">
-              <ProductTitle partNumber={partNumber} name={name} />
+              <ProductTitle partNumber={partNumber} name={name}  shortDescription={shortDescription}/>
               <Prices prices={prices} />
-              <div className={"col"}>GARANTIA</div>
               <div className={"col"}>
-                {" "}
                 <ButtonAddCart />
               </div>
             </div>
@@ -118,16 +113,16 @@ class Product extends Component {
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, product } = this.state;
 
     return (
       <div>
         <div className="container-fluid header" >
-        <Link onClick={ () => {this.props.history.push('/')}} >ATRAS</Link>
+        <Link to={'/'} className={'btn-go-back'}>ATRAS</Link>
         </div>
         <div className="container cont-index">
           <div className="row justify-content-center">
-            {loading ? <span>Loading...</span> : this.drawProduct()}
+            {loading ? <Loading /> : product === undefined ? <Loading />  : this.drawProduct()}
           </div>
         </div>
       </div>

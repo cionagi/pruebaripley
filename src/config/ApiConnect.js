@@ -50,7 +50,6 @@ const callApi = (url: String, config: RequestConfig, token: String) => {
             }
         }
 
-        console.log(request)
     return axios(request)
         .then(response => {
                 const json = response.data
@@ -100,7 +99,7 @@ export default store => next => action => {
     }
 
     let {endpoint} = callAPI
-    const {schema, types, method = 'GET', data, callbacks} = callAPI
+    const {schema, types, method = 'GET', data, callbacks, payload = null} = callAPI
 
     if (typeof endpoint === 'function') {
         endpoint = endpoint(store.getState())
@@ -129,13 +128,14 @@ export default store => next => action => {
     next(actionWith({type: Action.NETWORK_OPERATION_START}))
     next(actionWith({type: requestType}))
 
-    const config = {responseSchema: schema, data, callbacks, method}
+    const config = {responseSchema: schema, data, callbacks, method, payload}
     return callApi(endpoint, config, ).then(
         
         response => {
             next(actionWith({
                 response,
-                type: successType
+                type: successType,
+                payload
             }))
             next(actionWith({type: Action.NETWORK_OPERATION_END}))
         },

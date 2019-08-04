@@ -3,11 +3,12 @@ import React, { Component } from "react";
 class ProductTitle extends Component {
   
   render() {
-    const {partNumber, name,} = this.props
+    const {partNumber, name, shortDescription} = this.props
     return (
-      <div className={'row mb-5'}>
-        <div className={'col-12'}>{name}</div>
-        <div className={'col-12'}>{partNumber}</div>
+      <div className={'col-12 mb-5 product-title'}>
+        <div className={'col-12 name'}>{name}</div>
+        <div className={'col-12'}>{shortDescription}</div>
+        <div className={'col-12'}><strong>SKU</strong> {partNumber}</div>
       </div>
     )
   }

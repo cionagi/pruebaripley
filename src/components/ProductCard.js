@@ -29,7 +29,7 @@ class ProductCard extends Component {
     const {product} = this.state
     const priceOfferColorClass = !product.prices.formattedCardPrice ? 'price-offer-color' : null
     return (
-      <div className="col-sm-6 col-lg-3">
+      <div className="col-6 col-sm-4 col-lg-3 mb-3">
          <Link to={`/product/${product.uniqueID}`} className="product-link">
         <div className={'product-card'}>
           
@@ -42,7 +42,7 @@ class ProductCard extends Component {
 
           <div className={'product-detail'}>
             <div className={'product-detail-brand'}>{product.name} BRAND</div>
-            <div className={'product-detail-description'}>{product.shortDescription}</div>
+            <div className={'product-detail-description text-truncate'}>{product.shortDescription}</div>
             <div className={'product-prices'}>
             <div className={'product-detail-formattedListPrice'}>{product.prices.formattedListPrice}</div>
             <div className={`product-detail-formattedOfferPrice font-weight-bold ${priceOfferColorClass}`}>{product.prices.formattedOfferPrice}</div>
@@ -50,7 +50,7 @@ class ProductCard extends Component {
             { !priceOfferColorClass &&
               <div className={'product-detail-formattedCardPrice font-weight-bold price-offer-color'}>
                 {product.prices.formattedCardPrice}
-                <img class="product-prices-card" src="//static.ripley.cl/images/opex.png" alt="Precio Tarjeta Ripley"></img>
+                <img className="product-prices-card" src="//static.ripley.cl/images/opex.png" alt="Precio Tarjeta Ripley"></img>
               </div>
             }
             </div>

@@ -2,14 +2,16 @@ import * as Action from "../actions/ActionsTypes";
 import _ from 'lodash';
 const initialState = {
   isFetching: false,
+  isFetchingProductId: false,
   hasError: false,
   messageError: undefined,
   list: [],
   totalProducts: 0,
-  limit: 10,
+  limit: 4,
   offset: 0,
   hasProducts: true,
-  recentlyViewed:[]
+  recentlyViewed:[],
+  product: {}
 };
 
 class Products {
@@ -24,7 +26,7 @@ class Products {
   static [Action.GET_PRODUCT_BY_ID_REQUEST](state, action) {
     return {
       ...state,
-      isFetching: true,
+      isFetchingProductId: true,
       hasError: false
     };
   }
@@ -36,33 +38,11 @@ class Products {
     } = action;
 
     let product = null
-    if (state.list[uniqueID] === undefined) {
-      product = {
-        uniqueID: response.uniqueID,
-        partNumber: response.partNumber,
-        name: response.name,
-        prices: response.prices,
-        images: response.images,
-        shortDescription: response.shortDescription,
-        infoComplete:response
-      }
-    } else {
-      product = {
-       ...state.list[uniqueID],
-        infoComplete:response
-      }
-    }
 
     return {
       ...state,
-      list: {
-        ...state.list,
-        [uniqueID]: {
-          ...state.list[uniqueID],
-          ...product
-        }
-      },
-      isFetching: false,
+      product: response,
+      isFetchingProductId: false,
       hasError: false
     };
   }
@@ -70,7 +50,7 @@ class Products {
   static [Action.GET_PRODUCT_BY_ID_ERROR](state, action) {
     return {
       ...state,
-      isFetching: false,
+      isFetchingProductId: false,
       hasError: true
     };
   }
@@ -85,25 +65,15 @@ class Products {
 
   static [Action.GET_PRODUCTS_SUCCESS](state, action) {
     const { response } = action;
-    console.log()
-    if(_.isEmpty(response)){
       return {
         ...state,
-        hasProducts:false
-      }
-    }
-    else{
-      return {
-        ...state,
-        list: {
-          ...state.list,
-          ...response
-        },
+        hasProducts: !_.isEmpty(response),
+        limit: action.payload.limit,
+        offset: action.payload.offset,
+        list: _.isEmpty(response) ? state.list : [...state.list, ...response],
         isFetching: false,
         hasError: false
       };
-    }
-    
   }
 
   static [Action.GET_PRODUCTS_ERROR](state, action) {
@@ -117,7 +87,7 @@ class Products {
   static [Action.SET_RECENTLY_VIEWED](state, action) {
     return {
         ...state,
-        recentlyViewed:  [...state.recentlyViewed, action.payload],
+        recentlyViewed: state.recentlyViewed.indexOf(action.payload) !== 0 ? [...state.recentlyViewed, action.payload] : [...state.recentlyViewed],
     }
   }
 

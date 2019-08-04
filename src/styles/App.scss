@@ -1,4 +1,12 @@
 
 @import "components/productCard.scss";
 @import "components/RecentlySeenCard.scss";
+@import "screens/Product.scss";
 @import "node_modules/react-image-gallery/styles/scss/image-gallery.scss";
+
+
+.loading-custom{
+    width: 3rem !important; 
+    height: 3rem !important; 
+}
+
