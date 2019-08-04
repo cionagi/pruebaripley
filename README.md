@@ -1,3 +1,15 @@
+## Requisitos
+NODE
+Yarn
+
+##Cambiar de ambiente local o remoto
+en la carpeta constans/enviroments.js cambiar la varaiable ApiEnv por dev para local y prod para remoto
+
+#
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
